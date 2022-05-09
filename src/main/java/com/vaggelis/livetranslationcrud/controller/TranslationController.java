@@ -3,14 +3,12 @@ package com.vaggelis.livetranslationcrud.controller;
 import com.vaggelis.livetranslationcrud.Utils;
 import com.vaggelis.livetranslationcrud.model.Translation;
 import com.vaggelis.livetranslationcrud.repository.TranslationRepository;
-import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.function.Function;
 
 @CrossOrigin(origins="http://localhost:8081")
 @RestController
@@ -53,13 +51,17 @@ public class TranslationController {
             }
 
 
-            Comparator<String> levenshteinComp = (o1, o2) -> (int) Utils.similarity(o1, o2)*1000;
+            Comparator<String> levenshteinComp = (o1, o2) -> (int) Utils.similarity(o1, o2)*1000; // to *1000 einai epeidh to similarity exei times apo 0 ews 1
             outputArray.sort(levenshteinComp);
 
             List<String> groupedList = Utils.groupBySimilarity(outputArray);
 
             System.out.println("OUTPUT ARRAY IS: " + outputArray);
             System.out.println("GROUPED ARRAY IS: " + groupedList);
+
+            // Sort me vash to poses fores emfanizetai to kathe string
+            Comparator<String> lastCharComp = (a, b) -> Integer.compare(b.charAt(b.length() -1), a.charAt(a.length()-1));
+            groupedList.sort(lastCharComp);
 
 
 
