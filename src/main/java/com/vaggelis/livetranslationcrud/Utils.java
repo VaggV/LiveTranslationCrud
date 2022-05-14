@@ -4,7 +4,6 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Utils {
     public static double similarity(String s1, String s2) {
@@ -16,7 +15,6 @@ public class Utils {
         if (longerLength == 0) return 1.0; // both strings are zero length
 
         LevenshteinDistance x = new LevenshteinDistance();
-
         return (longerLength - x.apply(longer, shorter)) / (double) longerLength;
     }
 
@@ -36,7 +34,7 @@ public class Utils {
             } else {
                 // If this condition isn't met then we need to do these steps outside the loop
                 entered = true;
-                String x = item + " x" + count;
+                String x = item + " *" + count;
                 newList.add(x);
 
                 item = list.get(i);
@@ -44,7 +42,7 @@ public class Utils {
             }
         }
         if (!entered) {
-            String x = item + " x" + count;
+            String x = item + " *" + count;
             newList.add(x);
         }
 
