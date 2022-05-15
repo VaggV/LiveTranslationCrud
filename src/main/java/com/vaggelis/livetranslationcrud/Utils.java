@@ -1,7 +1,6 @@
 package com.vaggelis.livetranslationcrud;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +17,8 @@ public class Utils {
         return (longerLength - x.apply(longer, shorter)) / (double) longerLength;
     }
 
-    public static List<String> groupBySimilarity(List<String> list){
-        List<String> newList = new ArrayList<>();
+    public static List<StringWithCounter> groupBySimilarity(List<String> list){
+        List<StringWithCounter> newList = new ArrayList<>();
         int count = 1;
         String item = list.get(0);
         boolean entered = false;
@@ -34,16 +33,14 @@ public class Utils {
             } else {
                 // If this condition isn't met then we need to do these steps outside the loop
                 entered = true;
-                String x = item + " *" + count;
-                newList.add(x);
+                newList.add(new StringWithCounter(item, count));
 
                 item = list.get(i);
                 count = 1;
             }
         }
         if (!entered) {
-            String x = item + " *" + count;
-            newList.add(x);
+            newList.add(new StringWithCounter(item, count));
         }
 
         return newList;
