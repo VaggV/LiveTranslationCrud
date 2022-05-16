@@ -120,6 +120,29 @@ public class TranslationController {
         }
     }
 
+    @GetMapping("/popularwords")
+    public ResponseEntity<List<StringWithCounter>> getPopularWords(){
+        try {
+            List<Translation> translations = new ArrayList<>(translationRepository.findAll());
+
+            if (translations.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            List<String> words = new ArrayList<>();
+            for (Translation tr : translations) {
+                words.addAll(List.of(tr.getOriginaltext().replace(",", "").replace(".", "").split(" ")));
+            }
+
+            List<StringWithCounter> wordCount = Utils.getWordCount(words);
+
+            Comparator<StringWithCounter> counterComparator = (a, b) -> Integer.compare(b.getCounter(), a.getCounter());
+            wordCount.sort(counterComparator);
+
+            return new ResponseEntity<>(wordCount, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @GetMapping("/populartranslations")
     public ResponseEntity<List<StringWithCounter>> getPopularTranslations() {
@@ -149,8 +172,8 @@ public class TranslationController {
             System.out.println("GROUPED ARRAY IS: " + groupedList);
 
             // Sort based on how many times each string is present
-            Comparator<StringWithCounter> lastCharComp = (a, b) -> Integer.compare(b.getCounter(), a.getCounter());
-            groupedList.sort(lastCharComp);
+            Comparator<StringWithCounter> counterComparator = (a, b) -> Integer.compare(b.getCounter(), a.getCounter());
+            groupedList.sort(counterComparator);
 
 
             return new ResponseEntity<>(groupedList, HttpStatus.OK);

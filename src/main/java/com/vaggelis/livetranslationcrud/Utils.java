@@ -1,10 +1,34 @@
 package com.vaggelis.livetranslationcrud;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 public class Utils {
+
+    public static List<StringWithCounter> getWordCount(List<String> arr)
+    {
+        // create a list to store unique words and another one to store their frequency
+        List<String> words = new ArrayList<>();
+        List<Integer> counter = new ArrayList<>();
+
+        // iterate through array of words
+        for (String s : arr) {
+            if (!words.contains(s)) {
+                words.add(s);
+                counter.add(0);
+            }
+            int i = words.indexOf(s);
+            counter.set(i, counter.get(i) + 1);
+        }
+
+        List<StringWithCounter> finalList = new ArrayList<>();
+        for (int i = 0; i < words.size(); i++){
+            finalList.add(new StringWithCounter(words.get(i), counter.get(i)));
+        }
+
+        return finalList;
+    }
     public static double similarity(String s1, String s2) {
         String longer = s1, shorter = s2;
         if (s1.length() < s2.length()) { // longer should always have greater length
