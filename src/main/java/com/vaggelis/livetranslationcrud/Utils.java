@@ -41,7 +41,7 @@ public class Utils {
         return (longerLength - x.apply(longer, shorter)) / (double) longerLength;
     }
 
-    public static List<StringWithCounter> groupBySimilarity(List<String> list){
+    public static List<StringWithCounter>  groupBySimilarity(List<String> list){
         List<StringWithCounter> newList = new ArrayList<>();
         int count = 1;
         String item = list.get(0);
@@ -66,6 +66,9 @@ public class Utils {
         if (!entered) {
             newList.add(new StringWithCounter(item, count));
         }
+
+        // Remove the strings with a counter of 1
+        newList.removeIf(swc -> swc.getCounter() == 1);
 
         return newList;
     }
