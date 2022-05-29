@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.image.AbstractMultiResolutionImage;
 import java.util.*;
 
 @CrossOrigin(origins="http://localhost:8081")
@@ -181,7 +179,4 @@ public class TranslationController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
 }
