@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins="http://localhost:8081")
 @RestController
@@ -80,7 +81,9 @@ public class TranslationController {
             Comparator<StringWithCounter> counterComparator = (s1, s2) -> Integer.compare(s2.getCounter(), s1.getCounter());
             combinedList.sort(counterComparator);
 
-            return new ResponseEntity<>(combinedList, HttpStatus.OK);
+            List<StringWithCounter> finalList = combinedList.stream().limit(10).collect(Collectors.toList());
+
+            return new ResponseEntity<>(finalList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -112,7 +115,9 @@ public class TranslationController {
             Comparator<StringWithCounter> counterComparator = (s1, s2) -> Integer.compare(s2.getCounter(), s1.getCounter());
             combinedList.sort(counterComparator);
 
-            return new ResponseEntity<>(combinedList, HttpStatus.OK);
+            List<StringWithCounter> finalList = combinedList.stream().limit(10).collect(Collectors.toList());
+
+            return new ResponseEntity<>(finalList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -135,7 +140,10 @@ public class TranslationController {
             Comparator<StringWithCounter> counterComparator = (a, b) -> Integer.compare(b.getCounter(), a.getCounter());
             wordCount.sort(counterComparator);
 
-            return new ResponseEntity<>(wordCount, HttpStatus.OK);
+            // Get top 10 results
+            List<StringWithCounter> finalList = wordCount.stream().limit(10).collect(Collectors.toList());
+
+            return new ResponseEntity<>(finalList, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -173,8 +181,10 @@ public class TranslationController {
             Comparator<StringWithCounter> counterComparator = (a, b) -> Integer.compare(b.getCounter(), a.getCounter());
             groupedList.sort(counterComparator);
 
+            // Get top 10 results
+            List<StringWithCounter> finalList = groupedList.stream().limit(10).collect(Collectors.toList());
 
-            return new ResponseEntity<>(groupedList, HttpStatus.OK);
+            return new ResponseEntity<>(finalList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
